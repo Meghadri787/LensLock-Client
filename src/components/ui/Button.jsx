@@ -13,7 +13,7 @@ const CustomButton = ({
                 type={type}
                 className={`${mode === "primary" && "bg-slate-900"}
                 ${mode === "success" && "bg-green-600"} 
-                }  text-white px-4 rounded-lg`}
+                 h-12 text-white px-4 rounded-lg`}
                 onClick={onClick}
                 {...rest}
             >
