@@ -1,8 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/auth/Login";
-import Home from "./pages/Home";
-import SplashScreen from "./pages/SplashScreen";
-import Register from "./pages/auth/Register";
+import { ForgetPassword, Home, Login, Register, SplashScreen } from "./pages";
 
 export default function App() {
     return (
@@ -12,6 +9,10 @@ export default function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
+                <Route
+                    path="/auth/forget-password"
+                    element={<ForgetPassword />}
+                />
             </Routes>
         </BrowserRouter>
     );
