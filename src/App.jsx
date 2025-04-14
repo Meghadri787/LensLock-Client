@@ -1,5 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ForgetPassword, Home, Login, Register, SplashScreen } from "./pages";
+import {
+    Dashboard,
+    ForgetPassword,
+    Home,
+    Login,
+    Register,
+    SplashScreen,
+} from "./pages";
 
 export default function App() {
     return (
@@ -7,6 +14,7 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<SplashScreen />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route
