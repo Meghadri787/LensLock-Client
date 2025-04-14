@@ -4,7 +4,6 @@ import {
     FiUploadCloud,
     FiFolder,
     FiShare2,
-    FiDownload,
     FiLock,
     FiServer,
     FiImage,
@@ -12,7 +11,6 @@ import {
 import {
     MdOutlineCloudUpload,
     MdOutlineCollections,
-    MdOutlineLink,
     MdOutlinePhotoLibrary,
 } from "react-icons/md";
 
