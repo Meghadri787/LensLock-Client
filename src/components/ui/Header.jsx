@@ -47,7 +47,7 @@ const Header = () => {
                 <nav className="container flex items-center justify-between">
                     <NavLink to="/" className="flex items-center">
                         <img
-                            src="/logo.png"
+                            src="/images/logo.png"
                             className="h-10 sm:h-12"
                             alt="Company Logo"
                             loading="lazy"

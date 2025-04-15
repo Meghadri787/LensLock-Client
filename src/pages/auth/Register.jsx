@@ -63,7 +63,7 @@ const Register = () => {
             <section className="grid grid-cols-1 md:[grid-template-columns:2fr_1fr] h-screen">
                 <div className="hidden md:block">
                     <img
-                        src="/background.webp"
+                        src="/images/background.webp"
                         alt="Background"
                         className="h-full w-full object-cover"
                     />
@@ -78,7 +78,7 @@ const Register = () => {
                             <div className="flex items-center gap-2">
                                 <span className="font-medium">to</span>
                                 <img
-                                    src="/logo-text.png"
+                                    src="/images/logo-text.png"
                                     alt="Lenslock Text Logo"
                                     className="h-6"
                                 />
@@ -185,7 +185,7 @@ const Register = () => {
 
                         <button
                             type="submit"
-                            className="w-full py-3 bg-[#2B152D] text-white rounded-md font-medium hover:opacity-90 transition"
+                            className="w-full py-3 bg-slate-900 text-white rounded-md font-medium hover:opacity-90 transition"
                         >
                             Register
                         </button>

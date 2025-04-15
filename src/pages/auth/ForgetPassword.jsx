@@ -11,9 +11,10 @@ const ForgetPassword = () => {
             <section className="grid grid-cols-1 md:[grid-template-columns:2fr_1fr] h-screen">
                 <div className="hidden md:block relative">
                     <img
-                        src="/background.webp"
+                        src="/images/background.webp"
                         alt="Background"
                         className="h-full w-full object-cover"
+                        loading="lazy"
                     />
                 </div>
 
@@ -27,9 +28,10 @@ const ForgetPassword = () => {
                             <div className="flex items-center gap-2">
                                 <span className="font-medium">of</span>
                                 <img
-                                    src="/logo-text.png"
+                                    src="/images/logo-text.png"
                                     alt="logo-text"
                                     className="h-6"
+                                    loading="lazy"
                                 />
                             </div>
                         </div>
@@ -65,7 +67,7 @@ const ForgetPassword = () => {
                         </div>
 
                         {/* Change Password Button */}
-                        <button className="w-full py-3 bg-[#2B152D] text-white rounded-md font-medium hover:opacity-90 transition mb-3">
+                        <button className="w-full py-3 bg-slate-900 text-white rounded-md font-medium hover:opacity-90 transition mb-3">
                             Change Password
                         </button>
 
