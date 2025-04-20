@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/:path*",
+            "destination": "https://lens-lock.vercel.app/:path*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ]
+}
