@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
     Dashboard,
     ForgetPassword,
@@ -7,14 +7,22 @@ import {
     Register,
     SplashScreen,
 } from "./pages";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
     return (
-        <BrowserRouter>
+        <Router>
             <Routes>
                 <Route path="/" element={<SplashScreen />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route
@@ -22,6 +30,6 @@ export default function App() {
                     element={<ForgetPassword />}
                 />
             </Routes>
-        </BrowserRouter>
+        </Router>
     );
 }
