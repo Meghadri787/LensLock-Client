@@ -5,6 +5,7 @@ import Register from "./auth/Register";
 import ForgetPassword from "./auth/ForgetPassword";
 import Dashboard from "./Dashboard";
 import MyBucket from "./MyBuckets";
+import BucketDetails from "./BucketDetails";
 import Notification from "./Notification";
 import Profile from "./Profile";
 import Settings from "./Settings";
@@ -18,6 +19,7 @@ export {
     ForgetPassword,
     Dashboard,
     MyBucket,
+    BucketDetails,
     Notification,
     Profile,
     Settings,

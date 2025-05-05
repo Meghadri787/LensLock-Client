@@ -11,6 +11,7 @@ import {
     Profile,
     Settings,
     Upload,
+    BucketDetails,
 } from "./pages";
 import Layout from "./layout/Layout";
 
@@ -24,6 +25,7 @@ export default function App() {
                 <Route element={<Layout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/buckets" element={<MyBucket />} />
+                    <Route path="/buckets/:id" element={<BucketDetails />} />
                     <Route path="/notifications" element={<Notification />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
