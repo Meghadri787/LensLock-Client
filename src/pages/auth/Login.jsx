@@ -4,8 +4,6 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { ImSpinner6 } from "react-icons/im";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/ui/Input";
-import useAuthStore from "../../store/authSore"; // your zustand store
-import axiosInstance from "../../api/axiosInstance";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -14,7 +12,6 @@ const Login = () => {
         password: "",
     });
 
-    const login = useAuthStore((state) => state.login);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -26,24 +23,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            setLoading(true);
-
-            const response = await axiosInstance.post("/auth/login", formData);
-
-            if (response.data.success) {
-                login(response.data.data, response.data.data.token);
-
-                navigate("/dashboard");
-            } else {
-                alert(response.data.message || "Login failed");
-            }
-        } catch (error) {
-            console.error("Login Error:", error);
-            alert(error.response?.data?.message || "Something went wrong");
-        } finally {
-            setLoading(false);
-        }
+        console.log("Login...");
     };
 
     return (

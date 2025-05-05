@@ -6,8 +6,13 @@ import {
     Login,
     Register,
     SplashScreen,
+    MyBucket,
+    Notification,
+    Profile,
+    Settings,
+    Upload,
 } from "./pages";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./layout/Layout";
 
 export default function App() {
     return (
@@ -15,14 +20,16 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<SplashScreen />} />
                 <Route path="/home" element={<Home />} />
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
+
+                <Route element={<Layout />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/buckets" element={<MyBucket />} />
+                    <Route path="/notifications" element={<Notification />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/upload" element={<Upload />} />
+                </Route>
+
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route
