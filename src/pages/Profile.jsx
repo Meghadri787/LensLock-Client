@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiEdit, FiMail, FiUser, FiMapPin, FiLink } from "react-icons/fi";
 import Header from "../components/dashboard/Header";
+import { useAuthStore } from "../store/useAuthStore";
+import axiosInstance from "../api/axiosInstance";
 
 const Profile = () => {
+    const { user, login } = useAuthStore();
+
+    const [isLoading, setIsLoading] = useState(false);
+
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
-        name: "Alex Johnson",
-        email: "alex.johnson@example.com",
+        name: user?.name,
+        email: user?.email,
         bio: "Digital designer & photographer. Creating meaningful experiences through visual storytelling.",
         location: "San Francisco, CA",
         website: "alexjohnson.design",
@@ -18,9 +24,34 @@ const Profile = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         setIsEditing(false);
+        setIsLoading(true);
         // Save to API would go here
+        try {
+            const { data } = await axiosInstance.put("/user/profile", {
+                name: formData.name,
+                // bio: formData.bio,
+                address: formData.location,
+                // website: formData.website,
+            });
+            console.log(data);
+            // Update user state in store
+            login({
+                _id: data?.data?._id,
+                name: data?.data?.name,
+                email: data?.data?.email,
+                isPrisProfileComplete: data?.data?.isPrisProfileComplete,
+                profile_pic: data?.data?.profile_pic,
+                role: data?.data?.role,
+            });
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            alert("Failed to update profile. Please try again.");
+        } finally {
+            setIsLoading(false);
+            setIsEditing(false);
+        }
     };
 
     return (
@@ -63,8 +94,9 @@ const Profile = () => {
                             className="absolute -top-12 left-6 border-4 border-white rounded-full"
                         >
                             <img
-                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
-                                alt="Profile"
+                                src={user?.profile_pic?.url}
+                                alt="Profile Picture"
+                                loading="lazy"
                                 className="w-24 h-24 rounded-full object-cover"
                             />
                         </motion.div>
@@ -162,7 +194,36 @@ const Profile = () => {
                                             onClick={handleSave}
                                             className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium mt-4"
                                         >
-                                            Save Changes
+                                            {isLoading ? (
+                                                <span className="flex items-center justify-center">
+                                                    <svg
+                                                        className="animate-spin h-5 w-5 mr-3 text-white"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <circle
+                                                            cx="12"
+                                                            cy="12"
+                                                            r="10"
+                                                            stroke="currentColor"
+                                                            fill="none"
+                                                        />
+                                                        <path
+                                                            d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12z"
+                                                            fill="currentColor"
+                                                        />
+                                                    </svg>
+                                                    Saving...
+                                                </span>
+                                            ) : (
+                                                <span>Save Changes</span>
+                                            )}
                                         </motion.button>
                                     </motion.div>
                                 ) : (

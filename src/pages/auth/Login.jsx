@@ -4,6 +4,9 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { ImSpinner6 } from "react-icons/im";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/ui/Input";
+import axiosInstance from "../../api/axiosInstance";
+import { useAuthStore } from "../../store/useAuthStore";
+// import { fi } from "date-fns/locale";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -13,6 +16,7 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+    const { login } = useAuthStore();
 
     const handleChange = (e) => {
         setFormData((prev) => ({
@@ -23,7 +27,27 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Login...");
+        try {
+            setLoading(true);
+            const { data } = await axiosInstance.post("/user/login", formData, {
+                withCredentials: false,
+            });
+            console.log(data);
+            login({
+                _id: data.data._id,
+                name: data.data.name,
+                email: data.data.email,
+                isPrisProfileComplete: data.data.isPrisProfileComplete,
+                profile_pic: data.data.profile_pic,
+                role: data.data.role,
+            });
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Login failed. Please check your credentials.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

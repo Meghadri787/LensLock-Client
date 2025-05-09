@@ -3,9 +3,12 @@ import { FiBell, FiChevronLeft } from "react-icons/fi";
 import Avatar from "../ui/Avatar";
 import NotificationBadge from "../ui/NotificationBadge";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const Header = ({ title, backVisible = false }) => {
     const navigate = useNavigate();
+
+    const { user } = useAuthStore();
 
     return (
         <header className="w-full flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 shadow-sm sticky top-0 z-10">
@@ -25,7 +28,7 @@ const Header = ({ title, backVisible = false }) => {
                     <NotificationBadge count={3} />
                 </button>
                 <Avatar
-                    src="https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369990.png"
+                    src={user?.profile_pic?.url}
                     alt="Profile"
                     size="lg"
                     status="online"
