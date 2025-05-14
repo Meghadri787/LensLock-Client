@@ -11,7 +11,7 @@ import {
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
-const BucketCard = ({ bucket, onShare, onDelete }) => {
+const BucketCard = ({ bucket, onShare }) => {
     return (
         <motion.div
             className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
@@ -26,7 +26,7 @@ const BucketCard = ({ bucket, onShare, onDelete }) => {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-gray-800">
-                                {bucket.title}
+                                {bucket?.name}
                             </h3>
                             <p className="text-xs text-gray-500 mt-1">
                                 Created{" "}
@@ -40,7 +40,7 @@ const BucketCard = ({ bucket, onShare, onDelete }) => {
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                            onDelete(bucket.id);
+                           
                         }}
                         className="text-red-500 bg-red-50 p-2 rounded-full hover:text-red-700 transition-colors"
                         aria-label="Delete bucket"

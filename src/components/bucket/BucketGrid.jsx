@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import BucketCard from "./BucketCard";
 import ShareBucketModal from "./ShareBucketModal";
+import { useBucketStore } from "../../store/useBucketStore";
 
-const BucketGrid = ({ buckets, setBuckets }) => {
+const BucketGrid = () => {
     const [selectedBucket, setSelectedBucket] = useState(null);
     const [showShareModal, setShowShareModal] = useState(false);
-
-    const handleDelete = (bucketId) => {
-        setBuckets(buckets.filter((bucket) => bucket.id !== bucketId));
-    };
+    const { buckets } = useBucketStore()
+  
 
     return (
         <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {buckets.map((bucket) => (
+                {buckets.length && buckets?.map((bucket) => (
                     <BucketCard
                         key={bucket.id}
                         bucket={bucket}
@@ -22,7 +21,7 @@ const BucketGrid = ({ buckets, setBuckets }) => {
                             setSelectedBucket(bucket);
                             setShowShareModal(true);
                         }}
-                        onDelete={handleDelete}
+                        
                     />
                 ))}
             </div>
