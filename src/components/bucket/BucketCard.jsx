@@ -40,7 +40,6 @@ const BucketCard = ({ bucket, onShare }) => {
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                           
                         }}
                         className="text-red-500 bg-red-50 p-2 rounded-full hover:text-red-700 transition-colors"
                         aria-label="Delete bucket"
@@ -64,7 +63,7 @@ const BucketCard = ({ bucket, onShare }) => {
 
                 <div className="flex justify-between border-t border-gray-100 pt-4">
                     <Link
-                        to={`/buckets/${bucket.id}`}
+                        to={`/buckets/${bucket._id}`}
                         className="flex items-center text-gray-700 hover:text-gray-900 transition-colors"
                     >
                         <FiEye size={16} className="mr-2" />
