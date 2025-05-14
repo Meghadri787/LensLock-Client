@@ -17,33 +17,34 @@ export const useAuthStore = create(
             // resgister user 
             registerUser : async (body) =>{
               
-                try {
+                
                     set({ isLoading: true });
                     const res = await makePostRequest({
                         path: `${ApiName.USER_REST_URL}/register`,
                         body,
                     });
-                    set({
-                        isLoading: false,
-                        user: res.data,
-                        isAuthenticated: true,
-                        message: res.message,
-                        success: true,
-                    });
-                    return res;
-                } catch (error) {
-                    console.log("not ok ");
 
-                    set({
-                        isLoading: false,
-                        user: {},
-                        message: error.message,
-                        success: false,
-                        error: error.message,
-                    });
-                    console.error(error);
-                    return error;
-                }
+                    if( res.success){
+                        set({
+                            isLoading: false,
+                            user: res.data,
+                            isAuthenticated: true,
+                            message: res.message,
+                            success: true,
+                        });
+
+                    } else {
+
+                        set({
+                            isLoading: false,
+                            user: {},
+                            message: res.message,
+                            isAuthenticated: false,
+                            success: false,
+                        });
+                    }
+                    return res;
+               
             } , 
 
             // login user 
@@ -70,6 +71,7 @@ export const useAuthStore = create(
                         isLoading: false,
                         user: {},
                         message: error.message,
+                        isAuthenticated: false,
                         success: false,
                         error: error.message,
                     });

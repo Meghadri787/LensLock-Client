@@ -14,9 +14,9 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: user?.name,
         email: user?.email,
-        bio: "Digital designer & photographer. Creating meaningful experiences through visual storytelling.",
-        location: "San Francisco, CA",
-        website: "alexjohnson.design",
+        bio: user?.bio || "Digital designer & photographer. Creating meaningful experiences through visual storytelling.",
+        location: user?.address || "San Francisco, CA",
+        website: user?.url || "alexjohnson.design",
     });
 
     const handleChange = (e) => {
