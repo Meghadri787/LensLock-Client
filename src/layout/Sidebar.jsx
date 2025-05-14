@@ -9,8 +9,25 @@ import {
     FiSettings,
     FiLogOut,
 } from "react-icons/fi";
+import { useAuthStore } from "../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Sidebar = () => {
+    const {  logoutUser } = useAuthStore();
+    const navigate = useNavigate();
+    const handleLogOut = async() => {
+       const res = await logoutUser();
+       console.log("res ====> " , res);
+       if(res.success){
+           toast.success(res.message);
+           navigate("/auth/login")
+       } else {
+           console.log("error", res);
+           toast.error(res.message);
+       }
+    }
+
     const links = [
         {
             path: "/dashboard",
@@ -77,7 +94,10 @@ const Sidebar = () => {
                 ))}
             </div>
             <footer className="border-t-[1px] h-16 flex items-center justify-center text-base font-semibold">
-                <button className="flex items-center justify-center gap-3 h-full w-full bg-rose-50 text-rose-800 hover:bg-rose-100 transition-all">
+                <button
+                 className="flex items-center justify-center gap-3 h-full w-full bg-rose-50 text-rose-800 hover:bg-rose-100 transition-all"
+                 onClick={handleLogOut}
+                 >
                     <FiLogOut size={20} />
                     Logout
                 </button>

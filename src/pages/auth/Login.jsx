@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/ui/Input";
 import axiosInstance from "../../api/axiosInstance";
 import { useAuthStore } from "../../store/useAuthStore";
+import { toast } from "react-toastify";
 // import { fi } from "date-fns/locale";
 
 const Login = () => {
@@ -16,7 +17,7 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
-    const { login } = useAuthStore();
+    const { loginUser , isLoading , user} = useAuthStore();
 
     const handleChange = (e) => {
         setFormData((prev) => ({
@@ -27,26 +28,12 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            setLoading(true);
-            const { data } = await axiosInstance.post("/user/login", formData, {
-                withCredentials: false,
-            });
-            console.log(data);
-            login({
-                _id: data.data._id,
-                name: data.data.name,
-                email: data.data.email,
-                isPrisProfileComplete: data.data.isPrisProfileComplete,
-                profile_pic: data.data.profile_pic,
-                role: data.data.role,
-            });
+        const res = await loginUser(formData);
+        if(res.success) {
+            toast.success(res.message);
             navigate("/dashboard");
-        } catch (error) {
-            console.error("Login error:", error);
-            alert("Login failed. Please check your credentials.");
-        } finally {
-            setLoading(false);
+        } else {
+            toast.error(res.message);
         }
     };
 
@@ -102,10 +89,10 @@ const Login = () => {
 
                         <button
                             type="submit"
-                            disabled={loading}
+                            disabled={isLoading}
                             className="h-14 w-full py-3 bg-slate-900 text-white rounded-md font-medium hover:opacity-90 transition flex items-center justify-center"
                         >
-                            {loading ? (
+                            {isLoading ? (
                                 <ImSpinner6
                                     size={26}
                                     className="animate-spin"
