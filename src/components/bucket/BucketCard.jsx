@@ -40,7 +40,6 @@ const BucketCard = ({ bucket, onShare }) => {
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                           
                         }}
                         className="text-red-500 bg-red-50 p-2 rounded-full hover:text-red-700 transition-colors"
                         aria-label="Delete bucket"

@@ -11,24 +11,22 @@ export const useBucketStore = create(
             buckets : [],
             selectedBucket : {} ,
             isLoading: false,
-            message: null,      
+            message: null,
             success: false,
 
-
-            fetchBuckets : async () => {
+            fetchBuckets: async () => {
                 set({ isLoading: true });
                 const res = await makeGetRequest({
                     path: `${ApiName.BUCKET_REST_URL}`,
                 });
-                if( res.success){
+                if (res.success) {
                     set({
                         isLoading: false,
                         buckets: res.data,
                         message: res.message,
                         success: true,
                     });
-                }
-                else {
+                } else {
                     set({
                         isLoading: false,
                         buckets: [],
@@ -37,8 +35,8 @@ export const useBucketStore = create(
                     });
                 }
                 return res;
-            } ,
-      
+            },
+
             // create bucket
         createBucket: async (body) => {
         set({ isLoading: true });
@@ -47,21 +45,21 @@ export const useBucketStore = create(
           body,
         });
 
-        if (res.success) {
-          const currentBuckets = get().buckets; // ✅ use get() instead of state param inside set
-          set({
-            isLoading: false,
-            buckets: [...currentBuckets, res.data],
-            message: res.message,
-            success: true,
-          });
-        } else {
-          set({
-            isLoading: false,
-            message: res.message,
-            success: false,
-          });
-        }
+                if (res.success) {
+                    const currentBuckets = get().buckets; // ✅ use get() instead of state param inside set
+                    set({
+                        isLoading: false,
+                        buckets: [...currentBuckets, res.data],
+                        message: res.message,
+                        success: true,
+                    });
+                } else {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: false,
+                    });
+                }
 
         return res;
       },
@@ -115,8 +113,8 @@ export const useBucketStore = create(
       }
      
         }),
-     {
-    name: "bucket-storage", // name of the storage (must be unique)
-    }
+        {
+            name: "bucket-storage", // name of the storage (must be unique)
+        }
     )
 );
