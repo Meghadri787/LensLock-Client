@@ -112,6 +112,37 @@ export const useAuthStore = create(
                 }
 
             },
+
+            // fetch user
+            fetchUser: async () => {
+                
+                    set({ isLoading: true });
+                    const res = await makeGetRequest({
+                        path: `${ApiName.USER_REST_URL}`,
+                    });
+                    if (res.success) {
+                        set({
+                            isLoading: false,
+                            user: res.data,
+                            isAuthenticated: true,
+                            message: res.message,
+                            success: true,
+                        });
+                    } else {
+                        set({
+                            isLoading: false,
+                            user: {},
+                            message: res.message,
+                            isAuthenticated: false,
+                            success: false,
+                        });
+                    }
+                    
+                    return res;
+               
+            }
+               
+            
         }),
      {
     name: "auth-storage", // name of the storage (must be unique)

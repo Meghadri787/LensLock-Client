@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Avatar from "../ui/Avatar";
 
-const ActivityItem = ({ message, time, userAvatar, delay = 0 }) => {
+const ActivityItem = ({ data , name ,  delay = 0 }) => {
     return (
         <motion.li
             className="flex items-start justify-between p-4 rounded-lg hover:bg-gray-50 transition-colors"
@@ -11,10 +11,11 @@ const ActivityItem = ({ message, time, userAvatar, delay = 0 }) => {
             transition={{ delay }}
         >
             <div className="flex items-start gap-3">
-                <Avatar src={userAvatar} size="md" />
+                <Avatar src={data?.profile_pic?.url} size="md" />
                 <div>
-                    <p className="text-gray-800">{message}</p>
-                    <p className="text-xs text-gray-500 mt-1">{time}</p>
+                    <p className="text-gray-800">{data.name} </p>
+                     {/* <P>  </P> */}
+                    <p className="text-xs text-gray-500 mt-1">{ data.createdAt }</p>
                 </div>
             </div>
             <div className="flex gap-2">

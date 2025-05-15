@@ -14,9 +14,9 @@ const BucketGrid = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {buckets.length && buckets?.map((bucket) => (
                     <BucketCard
-                        key={bucket.id}
+                        key={bucket._id}
                         bucket={bucket}
-                        onView={() => console.log("View bucket:", bucket.id)}
+                        onView={() => console.log("View bucket:", bucket._id)}
                         onShare={() => {
                             setSelectedBucket(bucket);
                             setShowShareModal(true);

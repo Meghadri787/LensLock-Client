@@ -16,8 +16,36 @@ import {
 import Layout from "./layout/Layout";
   import { Bounce, ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import { use, useEffect } from "react";
+import { useAuthStore } from "./store/useAuthStore";
 
 export default function App() {
+
+  const { isAuthenticated, user , fetchUser } = useAuthStore();
+ 
+  // const initialFetch = async ()=>{
+      
+  //   const res = await fetchUser();
+
+  //   console.log("res ====> " , res);
+    
+  //   if(res.success){
+  //     toast.success(res.message);
+  //     window.location.href = "/dashboard";
+  //   } else {
+  //     toast.error(res.message);
+  //     // window.location.href = "/auth/login";
+  //   }
+  
+  // }
+
+  // useEffect(()=>{
+  //   initialFetch();
+  // } , [ ]);
+
+
+
+
   return (
     <Router>
       <ToastContainer

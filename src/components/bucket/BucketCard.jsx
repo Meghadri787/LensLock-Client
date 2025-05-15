@@ -64,7 +64,7 @@ const BucketCard = ({ bucket, onShare }) => {
 
                 <div className="flex justify-between border-t border-gray-100 pt-4">
                     <Link
-                        to={`/buckets/${bucket.id}`}
+                        to={`/buckets/${bucket._id}`}
                         className="flex items-center text-gray-700 hover:text-gray-900 transition-colors"
                     >
                         <FiEye size={16} className="mr-2" />

@@ -9,6 +9,7 @@ export const useBucketStore = create(
     persist(
         (set , get) => ({
             buckets : [],
+            selectedBucket : {} ,
             isLoading: false,
             message: null,      
             success: false,
@@ -39,7 +40,7 @@ export const useBucketStore = create(
             } ,
       
             // create bucket
-          createBucket: async (body) => {
+        createBucket: async (body) => {
         set({ isLoading: true });
         const res = await makePostRequest({
           path: `${ApiName.BUCKET_REST_URL}`,
@@ -64,6 +65,54 @@ export const useBucketStore = create(
 
         return res;
       },
+
+
+      fetchBucketInfo : async (bucketId) => {
+        set({ isLoading: true });
+        const res = await makeGetRequest({
+          path: `${ApiName.BUCKET_REST_URL}/${bucketId}`,
+        });
+        if (res.success) {
+          set({
+            isLoading: false,
+            selectedBucket : res.data,
+            message: res.message,
+            success: true,
+          });
+        } else {
+          set({
+            isLoading: false,
+            selectedBucket: {},
+            message: res.message,
+            success: false,
+          });
+        }
+        return res;
+      } ,
+
+      bucketAccessRequest : async( id )=>{
+         set({ isLoading : true })
+         const res = await makePostRequest({
+          path : `${ApiName.BUCKET_REST_URL}/request-access/${id}` ,
+          body : {}
+         })
+
+        if (res.success) {
+          set({
+            isLoading: false,
+            message: res.message,
+            success: true,
+          });
+        } else {
+          set({
+            isLoading: false,
+            message: res.message,
+            success: false,
+          });
+        }
+        return res;
+
+      }
      
         }),
      {
