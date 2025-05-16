@@ -7,6 +7,7 @@ import QuickActionButton from "../components/dashboard/QuickActionButton";
 import { FiFolder, FiImage, FiClock, FiBell } from "react-icons/fi";
 import { useBucketStore } from "../store/useBucketStore";
 
+
 const Dashboard = () => {
 
     const { fetchBuckets , buckets  } = useBucketStore()
@@ -15,7 +16,7 @@ const Dashboard = () => {
          const res = await fetchBuckets();
             console.log("res ===> ", res);
             if(res.success){
-                toast.success(res.message);
+                // toast.success(res.message);
                 console.log("buckets ===> ", buckets);
             }
 

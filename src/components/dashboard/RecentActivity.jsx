@@ -24,6 +24,7 @@ const RecentActivity = ({ activities }) => {
                     (<ActivityItem
                         key={`${activity._id}${item.user}`}
                         name={activity?.name}
+                        bucketId = { activity._id}
                         data = { item }
                         delay={0.1 * index}
                     />)

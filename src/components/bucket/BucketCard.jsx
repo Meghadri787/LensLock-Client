@@ -54,10 +54,10 @@ const BucketCard = ({ bucket, onShare }) => {
 
                 <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
                     <span className="flex items-center justify-center gap-1">
-                        <FiImage /> {bucket.itemCount || 0} items
+                        <FiImage /> {bucket.mediaList?.length || 0} items
                     </span>
                     <span className="flex items-center justify-center gap-1">
-                        <FiUsers /> {bucket.viewerCount || 0} viewers
+                        <FiUsers /> {bucket.accessList?.length || 0} viewers
                     </span>
                 </div>
 

@@ -205,7 +205,7 @@ const BucketDetails = () => {
                 ) : bucket.media.length > 0 ? (
                     <MediaGrid media={bucket.media} />
                 ) : (
-                    <EmptyBucket bucketId={bucket.id} onUpload={handleUpload} />
+                    <EmptyBucket bucketId={id} onUpload={handleUpload} />
                 )}
             </div>
         </motion.section>
