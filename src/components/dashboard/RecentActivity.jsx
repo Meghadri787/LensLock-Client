@@ -19,12 +19,15 @@ const RecentActivity = ({ activities }) => {
                 </button>
             </div>
             <ul className="space-y-4">
-                {activities.map((activity, index) => (
-                    <ActivityItem
-                        key={activity.id}
-                        {...activity}
+                {activities.map((activity, index) => 
+                   activity?.accessRequests?.map((item)=>
+                    (<ActivityItem
+                        key={`${activity._id}${item.user}`}
+                        name={activity?.name}
+                        bucketId = { activity._id}
+                        data = { item }
                         delay={0.1 * index}
-                    />
+                    />)
                 ))}
             </ul>
         </motion.div>

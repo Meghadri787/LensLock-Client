@@ -5,10 +5,10 @@ import { ApiName } from "../constants/apiName";
 import { makeGetRequest, makePostRequest } from "../utils/request.handler";
 import axios from "axios";
 
-export const useBucketStore = create(
+export const useMediaStore = create(
     persist(
         (set , get) => ({
-            buckets : [],
+            mediaList : [],
             selectedBucket : {} ,
             isLoading: false,
             message: null,
@@ -38,18 +38,21 @@ export const useBucketStore = create(
             },
 
             // create bucket
-        createBucket: async (body) => {
+        uploadMedia: async (body) => {
         set({ isLoading: true });
         const res = await makePostRequest({
-          path: `${ApiName.BUCKET_REST_URL}`,
+          path: `${ApiName.MEDIA_REST_URL}`,
           body,
+          headers:{
+            "Content-Type": "multipart/form-data",
+          }
         });
 
                 if (res.success) {
-                    const currentBuckets = get().buckets; // ✅ use get() instead of state param inside set
+                    const currentList = get().mediaList; // ✅ use get() instead of state param inside set
                     set({
                         isLoading: false,
-                        buckets: [...currentBuckets, res.data],
+                        mediaList : [...currentList, res.data],
                         message: res.message,
                         success: true,
                     });
@@ -140,7 +143,7 @@ export const useBucketStore = create(
      
         }),
         {
-            name: "bucket-storage", // name of the storage (must be unique)
+            name: "media-storage", // name of the storage (must be unique)
         }
     )
 );

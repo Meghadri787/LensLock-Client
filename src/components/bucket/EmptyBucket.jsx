@@ -2,9 +2,18 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiImage, FiUpload } from "react-icons/fi";
 import MediaUploader from "./MediaUploader";
+import { useLayoutEffect } from "react";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useMediaStore } from "../../store/useMediaStore";
+
 
 const EmptyBucket = ({ bucketId, onUpload }) => {
     const [uploadActive, setUploadActive] = useState(false);
+    const { mediaList } = useMediaStore()
+    const { user } = useAuthStore();
+
+    console.log("========================" , mediaList);
+    
 
     return (
         <div className="relative w-full">
@@ -33,6 +42,8 @@ const EmptyBucket = ({ bucketId, onUpload }) => {
                             Upload photos or videos to start building your
                             collection
                         </p>
+                      
+
                         <motion.button
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}

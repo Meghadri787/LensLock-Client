@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/dashboard/Header";
 import StatsCard from "../components/dashboard/StatsCard";
 import RecentActivity from "../components/dashboard/RecentActivity";
 import QuickActionButton from "../components/dashboard/QuickActionButton";
 import { FiFolder, FiImage, FiClock, FiBell } from "react-icons/fi";
+import { useBucketStore } from "../store/useBucketStore";
+
 
 const Dashboard = () => {
+
+    const { fetchBuckets , buckets  } = useBucketStore()
+
+ const initialFetch = async()=>{
+         const res = await fetchBuckets();
+            console.log("res ===> ", res);
+            if(res.success){
+                // toast.success(res.message);
+                console.log("buckets ===> ", buckets);
+            }
+
+    }
+
+    useEffect(() => {
+        initialFetch();
+    } , [])
+
+
+
     const stats = [
         {
             title: "Total Buckets",
@@ -78,7 +99,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Recent Activity */}
-                <RecentActivity activities={activities} />
+                <RecentActivity activities={buckets} />
             </motion.main>
         </motion.section>
     );

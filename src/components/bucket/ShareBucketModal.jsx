@@ -5,7 +5,7 @@ import { FiCopy, FiX, FiShare2 } from "react-icons/fi";
 
 const ShareBucketModal = ({ bucket, onClose }) => {
     const [copied, setCopied] = useState(false);
-    const shareLink = `${window.location.origin}/bucket/${bucket.id}`;
+    const shareLink = `${window.location.origin}/buckets/${bucket._id}`;
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(shareLink);
@@ -26,7 +26,7 @@ const ShareBucketModal = ({ bucket, onClose }) => {
                         <div className="flex items-center gap-2">
                             <FiShare2 className="text-gray-600" />
                             <h2 className="text-xl font-semibold text-gray-800">
-                                Share "{bucket.title}"
+                                Share "{bucket.name}"
                             </h2>
                         </div>
                         <button
