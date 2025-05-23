@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiFolder } from "react-icons/fi";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const EmptyState = ({ onCreate }) => {
+    const { user } = useAuthStore();
     return (
         <motion.div
             className="flex flex-col items-center justify-center py-16 px-4 text-center"
@@ -20,12 +22,14 @@ const EmptyState = ({ onCreate }) => {
                 You haven't created any buckets yet. Create your first bucket to
                 start organizing your photos and videos.
             </p>
-            <button
-                onClick={onCreate}
-                className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            >
-                Create Bucket
-            </button>
+            {user?.role === "photographer" && (
+                <button
+                    onClick={onCreate}
+                    className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                    Create Bucket
+                </button>
+            )}
         </motion.div>
     );
 };

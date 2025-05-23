@@ -14,19 +14,19 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Sidebar = () => {
-    const {  logoutUser } = useAuthStore();
+    const { logoutUser, user } = useAuthStore();
     const navigate = useNavigate();
-    const handleLogOut = async() => {
-       const res = await logoutUser();
-       console.log("res ====> " , res);
-       if(res.success){
-           toast.success(res.message);
-           navigate("/auth/login")
-       } else {
-           console.log("error", res);
-           toast.error(res.message);
-       }
-    }
+    const handleLogOut = async () => {
+        const res = await logoutUser();
+        console.log("res ====> ", res);
+        if (res.success) {
+            toast.success(res.message);
+            navigate("/auth/login");
+        } else {
+            console.log("error", res);
+            toast.error(res.message);
+        }
+    };
 
     const links = [
         {
@@ -35,6 +35,7 @@ const Sidebar = () => {
                 label: "Dashboard",
                 icon: <FiGrid size={20} />,
             },
+            roles: ["photographer"], // Available for all
         },
         {
             path: "/buckets",
@@ -42,6 +43,7 @@ const Sidebar = () => {
                 label: "My Buckets",
                 icon: <FiFolder size={20} />,
             },
+            roles: ["photographer", "user"], // Available for all
         },
         {
             path: "/upload",
@@ -49,6 +51,7 @@ const Sidebar = () => {
                 label: "Upload",
                 icon: <FiUpload size={20} />,
             },
+            roles: ["photographer"], // Available for all
         },
         {
             path: "/profile",
@@ -56,6 +59,7 @@ const Sidebar = () => {
                 label: "Profile",
                 icon: <FiUser size={20} />,
             },
+            roles: ["photographer", "user"], // Available for all
         },
         {
             path: "/notifications",
@@ -63,6 +67,7 @@ const Sidebar = () => {
                 label: "Notifications",
                 icon: <FiBell size={20} />,
             },
+            roles: ["photographer", "user"], // Available for all
         },
 
         {
@@ -71,8 +76,14 @@ const Sidebar = () => {
                 label: "Settings",
                 icon: <FiSettings size={20} />,
             },
+            roles: ["photographer", "user"], // Available for all
         },
     ];
+
+    // Filter links based on user role
+    const filteredLinks = links.filter((link) =>
+        link.roles.includes(user?.role)
+    );
 
     return (
         <div className="flex flex-col h-screen w-72 shadow-md z-10">
@@ -84,7 +95,7 @@ const Sidebar = () => {
                 />
             </div>
             <div className="flex-1 flex-col flex px-2 py-8">
-                {links.map((item) => (
+                {filteredLinks.map((item) => (
                     <SidebarLink
                         icon={item.navLink.icon}
                         label={item.navLink.label}
@@ -95,9 +106,9 @@ const Sidebar = () => {
             </div>
             <footer className="border-t-[1px] h-16 flex items-center justify-center text-base font-semibold">
                 <button
-                 className="flex items-center justify-center gap-3 h-full w-full bg-rose-50 text-rose-800 hover:bg-rose-100 transition-all"
-                 onClick={handleLogOut}
-                 >
+                    className="flex items-center justify-center gap-3 h-full w-full bg-rose-50 text-rose-800 hover:bg-rose-100 transition-all"
+                    onClick={handleLogOut}
+                >
                     <FiLogOut size={20} />
                     Logout
                 </button>

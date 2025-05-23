@@ -11,45 +11,39 @@ export const useAuthStore = create(
             user: {} || null,
             isAuthenticated: false,
             isLoading: false,
-            message: null,      
+            message: null,
             success: false,
 
-            // resgister user 
-            registerUser : async (body) =>{
-              
-                
-                    set({ isLoading: true });
-                    const res = await makePostRequest({
-                        path: `${ApiName.USER_REST_URL}/register`,
-                        body,
+            // resgister user
+            registerUser: async (body) => {
+                set({ isLoading: true });
+                const res = await makePostRequest({
+                    path: `${ApiName.USER_REST_URL}/register`,
+                    body,
+                });
+
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        user: res.data,
+                        isAuthenticated: true,
+                        message: res.message,
+                        success: true,
                     });
+                } else {
+                    set({
+                        isLoading: false,
+                        user: {},
+                        message: res.message,
+                        isAuthenticated: false,
+                        success: false,
+                    });
+                }
+                return res;
+            },
 
-                    if( res.success){
-                        set({
-                            isLoading: false,
-                            user: res.data,
-                            isAuthenticated: true,
-                            message: res.message,
-                            success: true,
-                        });
-
-                    } else {
-
-                        set({
-                            isLoading: false,
-                            user: {},
-                            message: res.message,
-                            isAuthenticated: false,
-                            success: false,
-                        });
-                    }
-                    return res;
-               
-            } , 
-
-            // login user 
+            // login user
             loginUser: async (body) => {
-
                 try {
                     set({ isLoading: true });
                     const res = await makePostRequest({
@@ -81,18 +75,15 @@ export const useAuthStore = create(
             },
 
             // logout user
-            logoutUser: async() => {
-               
+            logoutUser: async () => {
                 try {
                     set({ isLoading: true });
                     const res = await makeGetRequest({
-                        path : `${ApiName.USER_REST_URL}/logout`,
-
-                    }
-                    );
+                        path: `${ApiName.USER_REST_URL}/logout`,
+                    });
                     set({
                         isLoading: false,
-                        user:{},
+                        user: {},
                         isAuthenticated: false,
                         message: res.message,
                         success: true,
@@ -110,42 +101,37 @@ export const useAuthStore = create(
                     console.error(error);
                     return error;
                 }
-
             },
 
             // fetch user
             fetchUser: async () => {
-                
-                    set({ isLoading: true });
-                    const res = await makeGetRequest({
-                        path: `${ApiName.USER_REST_URL}`,
+                set({ isLoading: true });
+                const res = await makeGetRequest({
+                    path: `${ApiName.USER_REST_URL}`,
+                });
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        user: res.data,
+                        isAuthenticated: true,
+                        message: res.message,
+                        success: true,
                     });
-                    if (res.success) {
-                        set({
-                            isLoading: false,
-                            user: res.data,
-                            isAuthenticated: true,
-                            message: res.message,
-                            success: true,
-                        });
-                    } else {
-                        set({
-                            isLoading: false,
-                            user: {},
-                            message: res.message,
-                            isAuthenticated: false,
-                            success: false,
-                        });
-                    }
-                    
-                    return res;
-               
-            }
-               
-            
+                } else {
+                    set({
+                        isLoading: false,
+                        user: {},
+                        message: res.message,
+                        isAuthenticated: false,
+                        success: false,
+                    });
+                }
+
+                return res;
+            },
         }),
-     {
-    name: "auth-storage", // name of the storage (must be unique)
-    }
+        {
+            name: "auth-storage", // name of the storage (must be unique)
+        }
     )
 );

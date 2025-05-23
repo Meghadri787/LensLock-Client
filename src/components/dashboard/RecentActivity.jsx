@@ -14,21 +14,22 @@ const RecentActivity = ({ activities }) => {
                 <h2 className="text-xl font-semibold text-gray-800">
                     Recent Activity
                 </h2>
-                <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                {/* <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
                     View All
-                </button>
+                </button> */}
             </div>
             <ul className="space-y-4">
-                {activities.map((activity, index) => 
-                   activity?.accessRequests?.map((item)=>
-                    (<ActivityItem
-                        key={`${activity._id}${item.user}`}
-                        name={activity?.name}
-                        bucketId = { activity._id}
-                        data = { item }
-                        delay={0.1 * index}
-                    />)
-                ))}
+                {activities.map((activity, index) =>
+                    activity?.accessRequests?.map((item) => (
+                        <ActivityItem
+                            key={`${activity._id}${item.user}`}
+                            name={activity?.name}
+                            bucketId={activity._id}
+                            data={item}
+                            delay={0.1 * index}
+                        />
+                    ))
+                )}
             </ul>
         </motion.div>
     );

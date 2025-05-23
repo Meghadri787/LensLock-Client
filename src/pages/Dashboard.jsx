@@ -7,26 +7,21 @@ import QuickActionButton from "../components/dashboard/QuickActionButton";
 import { FiFolder, FiImage, FiClock, FiBell } from "react-icons/fi";
 import { useBucketStore } from "../store/useBucketStore";
 
-
 const Dashboard = () => {
+    const { fetchBuckets, buckets } = useBucketStore();
 
-    const { fetchBuckets , buckets  } = useBucketStore()
-
- const initialFetch = async()=>{
-         const res = await fetchBuckets();
-            console.log("res ===> ", res);
-            if(res.success){
-                // toast.success(res.message);
-                console.log("buckets ===> ", buckets);
-            }
-
-    }
+    const initialFetch = async () => {
+        const res = await fetchBuckets();
+        console.log("res ===> ", res);
+        if (res.success) {
+            // toast.success(res.message);
+            console.log("buckets ===> ", buckets);
+        }
+    };
 
     useEffect(() => {
         initialFetch();
-    } , [])
-
-
+    }, []);
 
     const stats = [
         {
@@ -85,7 +80,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="flex flex-wrap items-end justify-end gap-4 my-6">
+                {/* <div className="flex flex-wrap items-end justify-end gap-4 my-6">
                     <QuickActionButton
                         icon="plus"
                         text="Create New Bucket"
@@ -96,7 +91,7 @@ const Dashboard = () => {
                         text="Upload Media"
                         color="purple"
                     />
-                </div>
+                </div> */}
 
                 {/* Recent Activity */}
                 <RecentActivity activities={buckets} />

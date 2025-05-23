@@ -98,10 +98,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { toast } from "react-toastify";
 import { useMediaStore } from "../store/useMediaStore";
+import { FiLoader } from "react-icons/fi";
 
 const BucketDetails = () => {
     const { id } = useParams();
-    const { selectedBucket, fetchBucketInfo, bucketAccessRequest } =
+    const { selectedBucket, fetchBucketInfo, bucketAccessRequest, isLoading } =
         useBucketStore();
     const { likeMedia } = useMediaStore();
     const { user, isAuthenticated } = useAuthStore();
@@ -148,8 +149,18 @@ const BucketDetails = () => {
                 setHasAccess(false);
             }
 
-            const isMatch = selectedBucket?.accessRequests?.find(
-                (item) => item?.user === user._id
+            // if (
+            //     // user._id !==
+            //     selectedBucket?.accessList?.some(
+            //         (item) => item?._id !== user?._id
+            //     ) ||
+            //     selectedBucket?.user?._id !== user?._id
+            // ) {
+            //     setHasAccess(false);
+            // }
+
+            const isMatch = selectedBucket?.accessRequests?.some(
+                (item) => item?.user?._id === user._id
             );
 
             if (isMatch) {
@@ -201,7 +212,11 @@ const BucketDetails = () => {
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all"
                                 onClick={handleRequestAccess}
                             >
-                                Request Access
+                                {isLoading ? (
+                                    <FiLoader className="animate-spin" />
+                                ) : (
+                                    "Request Access"
+                                )}
                             </button>
                         )}
                     </div>

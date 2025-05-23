@@ -6,14 +6,12 @@ import { useLayoutEffect } from "react";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useMediaStore } from "../../store/useMediaStore";
 
-
 const EmptyBucket = ({ bucketId, onUpload }) => {
     const [uploadActive, setUploadActive] = useState(false);
-    const { mediaList } = useMediaStore()
+    const { mediaList } = useMediaStore();
     const { user } = useAuthStore();
 
-    console.log("========================" , mediaList);
-    
+    console.log("========================", mediaList);
 
     return (
         <div className="relative w-full">
@@ -42,17 +40,18 @@ const EmptyBucket = ({ bucketId, onUpload }) => {
                             Upload photos or videos to start building your
                             collection
                         </p>
-                      
 
-                        <motion.button
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.97 }}
-                            onClick={() => setUploadActive(true)}
-                            className="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                        >
-                            <FiUpload size={18} />
-                            Upload Media
-                        </motion.button>
+                        {user?.role === "photographer" && (
+                            <motion.button
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
+                                onClick={() => setUploadActive(true)}
+                                className="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                            >
+                                <FiUpload size={18} />
+                                Upload Media
+                            </motion.button>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>

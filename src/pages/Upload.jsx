@@ -6,6 +6,7 @@ import MediaUploader from "../components/bucket/MediaUploader";
 import { FiUpload, FiPlus, FiFolder, FiArrowLeft } from "react-icons/fi";
 import Header from "../components/dashboard/Header";
 import { useBucketStore } from "../store/useBucketStore";
+import EmptyState from "../components/bucket/EmptyState";
 
 const Upload = () => {
     const { buckets, fetchBuckets, createBucket, addMediaToBucket, isLoading } =
@@ -71,7 +72,7 @@ const Upload = () => {
                 className="mx-auto p-6 overflow-y-scroll"
             >
                 <motion.div
-                    className="bg-white rounded-2xl shadow-sm p-8 relative"
+                    className="rounded-2xl p-8 relative"
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
@@ -103,32 +104,35 @@ const Upload = () => {
                             Loading buckets...
                         </div>
                     ) : buckets.length === 0 ? (
-                        <motion.div
-                            className="text-center py-12"
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                        >
-                            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <FiFolder className="w-8 h-8 text-blue-500" />
-                            </div>
-                            <h2 className="text-xl font-medium text-gray-700 mb-3">
-                                No buckets found
-                            </h2>
-                            <p className="text-gray-500 mb-6 max-w-md mx-auto">
-                                Create your first bucket to start organizing
-                                your media files
-                            </p>
-                            <motion.button
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.97 }}
-                                onClick={() => setShowCreateBucketModal(true)}
-                                className="bg-blue-600 text-white px-5 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700 transition"
-                            >
-                                <FiPlus className="text-lg" />
-                                Create Bucket
-                            </motion.button>
-                        </motion.div>
-                    ) : selectedBucket ? (
+                        <EmptyState
+                            onCreate={() => setShowCreateBucketModal(true)}
+                        />
+                    ) : // <motion.div
+                    //     className="text-center py-12 flex flex-col items-center justify-center"
+                    //     initial={{ scale: 0.95, opacity: 0 }}
+                    //     animate={{ scale: 1, opacity: 1 }}
+                    // >
+                    //     <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    //         <FiFolder className="w-8 h-8 text-blue-500" />
+                    //     </div>
+                    //     <h2 className="text-xl font-medium text-gray-700 mb-3">
+                    //         No buckets found
+                    //     </h2>
+                    //     <p className="text-gray-500 mb-6 max-w-md mx-auto">
+                    //         Create your first bucket to start organizing
+                    //         your media files
+                    //     </p>
+                    //     <motion.button
+                    //         whileHover={{ scale: 1.03 }}
+                    //         whileTap={{ scale: 0.97 }}
+                    //         onClick={() => setShowCreateBucketModal(true)}
+                    //         className="bg-blue-600 text-white px-5 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700 transition"
+                    //     >
+                    //         <FiPlus className="text-lg" />
+                    //         Create Bucket
+                    //     </motion.button>
+                    // </motion.div>
+                    selectedBucket ? (
                         <MediaUploader
                             bucketId={selectedBucket._id}
                             onClose={() => setSelectedBucketId(null)}
