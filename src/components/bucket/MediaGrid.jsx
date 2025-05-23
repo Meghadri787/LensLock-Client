@@ -16,11 +16,11 @@ const MediaGrid = ({ media, likedMedia, onLike }) => {
             className="flex gap-6"
             columnClassName="flex flex-col gap-6"
         >
-            {media.map((item) => (
+            {media.map((item, index) => (
                 <MediaCard
-                    key={item.id}
+                    key={index}
                     media={item}
-                    isLiked={likedMedia[item.id]}
+                    // isLiked={likedMedia[item.id]}
                     onLike={onLike}
                 />
             ))}

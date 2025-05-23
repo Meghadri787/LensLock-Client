@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import Button from "./Button";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
     const { scrollY } = useScroll();
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
+
+    const navigate = useNavigate();
 
     // Close mobile menu when route changes
     useEffect(() => {
@@ -75,7 +77,11 @@ const Header = () => {
                     </ul>
 
                     <div className="hidden md:block">
-                        <Button label="Login" mode="primary" />
+                        <Button
+                            label="Login"
+                            mode="primary"
+                            onClick={() => navigate("/auth/login")}
+                        />
                     </div>
 
                     {/* Mobile Menu Button */}

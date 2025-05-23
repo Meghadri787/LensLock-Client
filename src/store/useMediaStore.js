@@ -7,9 +7,9 @@ import axios from "axios";
 
 export const useMediaStore = create(
     persist(
-        (set , get) => ({
-            mediaList : [],
-            selectedBucket : {} ,
+        (set, get) => ({
+            mediaList: [],
+            selectedBucket: {},
             isLoading: false,
             message: null,
             success: false,
@@ -38,21 +38,21 @@ export const useMediaStore = create(
             },
 
             // create bucket
-        uploadMedia: async (body) => {
-        set({ isLoading: true });
-        const res = await makePostRequest({
-          path: `${ApiName.MEDIA_REST_URL}`,
-          body,
-          headers:{
-            "Content-Type": "multipart/form-data",
-          }
-        });
+            uploadMedia: async (body) => {
+                set({ isLoading: true });
+                const res = await makePostRequest({
+                    path: `${ApiName.MEDIA_REST_URL}`,
+                    body,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
 
                 if (res.success) {
                     const currentList = get().mediaList; // ✅ use get() instead of state param inside set
                     set({
                         isLoading: false,
-                        mediaList : [...currentList, res.data],
+                        mediaList: [...currentList, res.data],
                         message: res.message,
                         success: true,
                     });
@@ -64,83 +64,118 @@ export const useMediaStore = create(
                     });
                 }
 
-        return res;
-      },
+                return res;
+            },
 
+            deleteMedia: async (mediaId) => {
+                set({ isLoading: true });
+                const res = await axiosInstance.delete(`/media/${mediaId}`);
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        selectedBucket: res.data,
+                        message: res.message,
+                        success: true,
+                    });
+                } else {
+                    set({
+                        isLoading: false,
+                        selectedBucket: {},
+                        message: res.message,
+                        success: false,
+                    });
+                }
+                return res;
+            },
 
-      fetchBucketInfo : async (bucketId) => {
-        set({ isLoading: true });
-        const res = await makeGetRequest({
-          path: `${ApiName.BUCKET_REST_URL}/${bucketId}`,
-        });
-        if (res.success) {
-          set({
-            isLoading: false,
-            selectedBucket : res.data,
-            message: res.message,
-            success: true,
-          });
-        } else {
-          set({
-            isLoading: false,
-            selectedBucket: {},
-            message: res.message,
-            success: false,
-          });
-        }
-        return res;
-      } ,
+            fetchBucketInfo: async (bucketId) => {
+                set({ isLoading: true });
+                const res = await makeGetRequest({
+                    path: `${ApiName.BUCKET_REST_URL}/${bucketId}`,
+                });
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        selectedBucket: res.data,
+                        message: res.message,
+                        success: true,
+                    });
+                } else {
+                    set({
+                        isLoading: false,
+                        selectedBucket: {},
+                        message: res.message,
+                        success: false,
+                    });
+                }
+                return res;
+            },
 
-      bucketAccessRequest : async( id )=>{
-         set({ isLoading : true })
-         const res = await makePostRequest({
-          path : `${ApiName.BUCKET_REST_URL}/request-access/${id}` ,
-          body : {}
-         })
+            bucketAccessRequest: async (id) => {
+                set({ isLoading: true });
+                const res = await makePostRequest({
+                    path: `${ApiName.BUCKET_REST_URL}/request-access/${id}`,
+                    body: {},
+                });
 
-        if (res.success) {
-          set({
-            isLoading: false,
-            message: res.message,
-            success: true,
-          });
-        } else {
-          set({
-            isLoading: false,
-            message: res.message,
-            success: false,
-          });
-        }
-        return res;
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: true,
+                    });
+                } else {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: false,
+                    });
+                }
+                return res;
+            },
 
-      } ,
+            manageAccessRequest: async ({ id, requestId, response }) => {
+                set({ isLoading: true });
+                const res = await makePostRequest({
+                    path: `${ApiName.BUCKET_REST_URL}/${id}/access-requests/${requestId}/respond`,
+                    body: { response },
+                });
 
-      manageAccessRequest : async({ id , requestId , response })=>{
-        
-         set({ isLoading : true })
-         const res = await makePostRequest({
-          path : `${ApiName.BUCKET_REST_URL}/${id}/access-requests/${requestId}/respond` ,
-          body : { response }
-         })
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: true,
+                    });
+                } else {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: false,
+                    });
+                }
+                return res;
+            },
+            likeMedia: async (id) => {
+                console.log(id);
 
-        if (res.success) {
-          set({
-            isLoading: false,
-            message: res.message,
-            success: true,
-          });
-        } else {
-          set({
-            isLoading: false,
-            message: res.message,
-            success: false,
-          });
-        }
-        return res;
-
-
-      }
-     
+                set({ isLoading: true });
+                const res = await axiosInstance.patch(`/media/like/${id}`);
+                if (res.success) {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: true,
+                    });
+                } else {
+                    set({
+                        isLoading: false,
+                        message: res.message,
+                        success: false,
+                    });
+                }
+                return res;
+            },
         }),
         {
             name: "media-storage", // name of the storage (must be unique)

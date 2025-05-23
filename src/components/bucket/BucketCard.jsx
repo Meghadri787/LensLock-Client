@@ -10,8 +10,10 @@ import {
 } from "react-icons/fi";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import { useBucketStore } from "../../store/useBucketStore";
 
 const BucketCard = ({ bucket, onShare }) => {
+    const { deleteBucket } = useBucketStore();
     return (
         <motion.div
             className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
@@ -40,6 +42,7 @@ const BucketCard = ({ bucket, onShare }) => {
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
+                            deleteBucket(bucket?._id);
                         }}
                         className="text-red-500 bg-red-50 p-2 rounded-full hover:text-red-700 transition-colors"
                         aria-label="Delete bucket"

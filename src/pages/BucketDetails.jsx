@@ -31,8 +31,6 @@
 //         }));
 //     };
 
-
-
 //     const initialFetch = async ()=>{
 //         const res = await fetchBucketInfo(id);
 //         console.log("res ====> " , res);
@@ -45,15 +43,13 @@
 
 //     useEffect(()=>{
 //        if(!isAuthenticated){
-//          navigate("/auth/login");  
+//          navigate("/auth/login");
 //        } else if(user && selectedBucket){
 //           if(user._id !== selectedBucket.ownerId){
 //             // create a bucket request design and a button for the user to request access to the bucket
 //           }
 //        }
 //     } , [isAuthenticated , user , selectedBucket])
-
-
 
 //     return (
 //         <motion.section
@@ -92,8 +88,6 @@
 
 // export default BucketDetails;
 
-
-
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/dashboard/Header";
@@ -103,27 +97,22 @@ import { useBucketStore } from "../store/useBucketStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { toast } from "react-toastify";
+import { useMediaStore } from "../store/useMediaStore";
 
 const BucketDetails = () => {
     const { id } = useParams();
-    const { selectedBucket, fetchBucketInfo , bucketAccessRequest } = useBucketStore();
+    const { selectedBucket, fetchBucketInfo, bucketAccessRequest } =
+        useBucketStore();
+    const { likeMedia } = useMediaStore();
     const { user, isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
-    const [bucket, setBucket] = useState({
-        id: "1",
-        title: "Travel Memories",
-        description: "My summer 2025 vacation photos",
-        createdAt: "2025-05-05T00:00:00Z",
-        itemCount: 0,
-        viewerCount: 12,
-        media: [],
-    });
+    const [bucketMedias, setBucketMedias] = useState([]);
 
     const [hasAccess, setHasAccess] = useState(true);
     const [requestSent, setRequestSent] = useState(false);
 
     const handleUpload = (bucketId, mediaItems) => {
-        setBucket((prev) => ({
+        setBucketMedias((prev) => ({
             ...prev,
             media: [...prev.media, ...mediaItems],
             itemCount: prev.itemCount + mediaItems.length,
@@ -131,8 +120,17 @@ const BucketDetails = () => {
     };
 
     const initialFetch = async () => {
-        const res = await fetchBucketInfo(id);
-        console.log("res ====> ", res);
+        try {
+            const res = await fetchBucketInfo(id);
+            console.log("res ====> ", res);
+            if (res.success === true) {
+                setBucketMedias(res?.data?.mediaList);
+            } else {
+                toast.error("Failed to load media");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {
@@ -145,28 +143,30 @@ const BucketDetails = () => {
         } else if (user && selectedBucket) {
             console.log("user ====> ", user);
             console.log("selectedBucket ====> ", selectedBucket);
-            
+
             if (user._id !== selectedBucket?.user?._id) {
                 setHasAccess(false);
-            } 
+            }
 
-            const isMatch = selectedBucket?.accessRequests?.find((item) => item?.user === user._id)
+            const isMatch = selectedBucket?.accessRequests?.find(
+                (item) => item?.user === user._id
+            );
 
-            if( isMatch ){
-                  setRequestSent(true);
+            if (isMatch) {
+                setRequestSent(true);
             }
         }
-    }, [isAuthenticated, user, selectedBucket , id  ]);
+    }, [isAuthenticated, user, selectedBucket, id]);
 
-    const handleRequestAccess = async() => {
+    const handleRequestAccess = async () => {
         // 🔄 send a request here (e.g., API call)
         console.log("Access request sent for bucket ID:", id);
-        const res =await bucketAccessRequest(id);
-        if(res.success){
-            toast.success(res.message)
+        const res = await bucketAccessRequest(id);
+        if (res.success) {
+            toast.success(res.message);
             setRequestSent(true);
-        }else{
-            toast.error(res.message)
+        } else {
+            toast.error(res.message);
         }
     };
 
@@ -189,10 +189,13 @@ const BucketDetails = () => {
                             You don't have access to this bucket.
                         </h2>
                         <p className="text-gray-500 mb-4">
-                            Only the owner can grant access. You can request access below.
+                            Only the owner can grant access. You can request
+                            access below.
                         </p>
                         {requestSent ? (
-                            <span className="text-green-500 font-medium">Request sent ✅</span>
+                            <span className="text-green-500 font-medium">
+                                Request sent ✅
+                            </span>
                         ) : (
                             <button
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all"
@@ -202,8 +205,8 @@ const BucketDetails = () => {
                             </button>
                         )}
                     </div>
-                ) : bucket.media.length > 0 ? (
-                    <MediaGrid media={bucket.media} />
+                ) : bucketMedias.length > 0 ? (
+                    <MediaGrid media={bucketMedias} onLike={likeMedia} />
                 ) : (
                     <EmptyBucket bucketId={id} onUpload={handleUpload} />
                 )}
@@ -213,4 +216,3 @@ const BucketDetails = () => {
 };
 
 export default BucketDetails;
-
