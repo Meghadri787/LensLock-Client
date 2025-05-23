@@ -17,7 +17,7 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
-    const { loginUser , isLoading , user} = useAuthStore();
+    const { loginUser, isLoading, user } = useAuthStore();
 
     const handleChange = (e) => {
         setFormData((prev) => ({
@@ -29,7 +29,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         const res = await loginUser(formData);
-        if(res.success) {
+        if (res.success) {
             toast.success(res.message);
             navigate("/dashboard");
         } else {
@@ -104,12 +104,12 @@ const Login = () => {
                     </form>
 
                     <div className="flex justify-between text-sm text-[#333] mt-4">
-                        <Link
+                        {/* <Link
                             to="/auth/forget-password"
                             className="hover:underline"
                         >
                             Forgot password?
-                        </Link>
+                        </Link> */}
                         <Link to="/auth/register" className="hover:underline">
                             Don't have an account?{" "}
                             <span className="font-bold">Register</span>
