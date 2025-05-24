@@ -11,9 +11,11 @@ import {
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { useBucketStore } from "../../store/useBucketStore";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const BucketCard = ({ bucket, onShare }) => {
     const { deleteBucket } = useBucketStore();
+    const { user } = useAuthStore();
     return (
         <motion.div
             className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
@@ -39,16 +41,18 @@ const BucketCard = ({ bucket, onShare }) => {
                             </p>
                         </div>
                     </div>
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            deleteBucket(bucket?._id);
-                        }}
-                        className="text-red-500 bg-red-50 p-2 rounded-full hover:text-red-700 transition-colors"
-                        aria-label="Delete bucket"
-                    >
-                        <FiTrash2 size={18} />
-                    </button>
+                    {user?.role === "photographer" && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                deleteBucket(bucket?._id);
+                            }}
+                            className="text-red-500 bg-red-50 p-2 rounded-full hover:text-red-700 transition-colors"
+                            aria-label="Delete bucket"
+                        >
+                            <FiTrash2 size={18} />
+                        </button>
+                    )}
                 </div>
 
                 <p className="text-gray-600 text-sm mb-6 line-clamp-2">

@@ -59,8 +59,16 @@ const BucketDetails = () => {
                 setHasAccess(false);
             }
 
+            if (
+                selectedBucket?.accessList?.some(
+                    (item) => item?._id === user?._id
+                )
+            ) {
+                setHasAccess(true);
+            }
+
             // if (
-            //     // user._id !==
+            //     user._id !== selectedBucket?.user?._id ||
             //     selectedBucket?.accessList?.some(
             //         (item) => item?._id !== user?._id
             //     ) ||

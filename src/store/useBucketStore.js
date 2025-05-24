@@ -19,6 +19,7 @@ export const useBucketStore = create(
             const res = await makeGetRequest({
                 path: `${ApiName.BUCKET_REST_URL}`,
             });
+            console.log("🚀 ~ fetchBuckets: ~ res:", res);
             if (res.success) {
                 set({
                     isLoading: false,
@@ -69,6 +70,8 @@ export const useBucketStore = create(
             const res = await makeGetRequest({
                 path: `${ApiName.BUCKET_REST_URL}/${bucketId}`,
             });
+            console.log("🚀 ~ fetchBucketInfo: ~ res:", res);
+
             if (res.success) {
                 set({
                     isLoading: false,
