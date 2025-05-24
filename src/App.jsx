@@ -21,8 +21,10 @@ import {
 import Layout from "./layout/Layout";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthStore } from "./store/useAuthStore";
 
 export default function App() {
+    const { user } = useAuthStore();
     return (
         <Router>
             <ToastContainer
@@ -44,7 +46,16 @@ export default function App() {
                 <Route path="/home" element={<Home />} />
 
                 <Route element={<Layout />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            user?.role === "photographer" ? (
+                                <Dashboard />
+                            ) : (
+                                <Navigate to={"/buckets"} />
+                            )
+                        }
+                    />
                     <Route path="/buckets" element={<MyBucket />} />
                     <Route path="/buckets/:id" element={<BucketDetails />} />
                     <Route path="/notifications" element={<Notification />} />

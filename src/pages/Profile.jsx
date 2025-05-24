@@ -6,7 +6,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import axiosInstance from "../api/axiosInstance";
 
 const Profile = () => {
-    const { user, login } = useAuthStore();
+    const { user, loginUser: login, fetchUser } = useAuthStore();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +14,9 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: user?.name,
         email: user?.email,
-        bio: user?.bio || "Digital designer & photographer. Creating meaningful experiences through visual storytelling.",
+        bio:
+            user?.bio ||
+            "Digital designer & photographer. Creating meaningful experiences through visual storytelling.",
         location: user?.address || "San Francisco, CA",
         website: user?.url || "alexjohnson.design",
     });
@@ -37,14 +39,15 @@ const Profile = () => {
             });
             console.log(data);
             // Update user state in store
-            login({
-                _id: data?.data?._id,
-                name: data?.data?.name,
-                email: data?.data?.email,
-                isPrisProfileComplete: data?.data?.isPrisProfileComplete,
-                profile_pic: data?.data?.profile_pic,
-                role: data?.data?.role,
-            });
+            // login({
+            //     _id: data?.data?._id,
+            //     name: data?.data?.name,
+            //     email: data?.data?.email,
+            //     isPrisProfileComplete: data?.data?.isPrisProfileComplete,
+            //     profile_pic: data?.data?.profile_pic,
+            //     role: data?.data?.role,
+            // });
+            fetchUser();
         } catch (error) {
             console.error("Error updating profile:", error);
             alert("Failed to update profile. Please try again.");
@@ -139,6 +142,7 @@ const Profile = () => {
                                                     value={formData.email}
                                                     onChange={handleChange}
                                                     className="w-full outline-none"
+                                                    disabled
                                                 />
                                             </div>
                                         </div>

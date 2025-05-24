@@ -165,9 +165,9 @@ const Upload = () => {
                                         <div className="aspect-square overflow-hidden rounded-t-2xl">
                                             <img
                                                 src={
-                                                    bucket?.mediaList[0].media
+                                                    bucket?.mediaList[0]?.media
                                                         ?.url ||
-                                                    "/default-cover.jpg"
+                                                    "/images/logo-image.png"
                                                 }
                                                 alt={bucket.title}
                                                 className="w-full h-full object-cover"
